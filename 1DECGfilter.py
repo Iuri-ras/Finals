@@ -130,5 +130,5 @@ if uploaded_file:
     st.markdown("**QRS Visibility Improved:** The high-frequency noise and baseline drift have been filtered out, making the QRS complex more prominent and clearer to analyze.")
 
     # Download Filtered Data
-    st.markdown("### Download Filtered ECG Data")
+    st.markdown("### GAGO Filtered ECG Data")
     download_button = st.download_button(label="Download CSV", data=df.to_csv(index=False), file_name="filtered_ecg.csv", mime="text/csv")

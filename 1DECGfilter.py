@@ -13,10 +13,14 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-# Custom CSS for sidebar styling
+# Initialize session state to track if sample data is loaded
+if "load_sample_clicked" not in st.session_state:
+    st.session_state.load_sample_clicked = False
+
+# Custom CSS for sidebar styling and button pop-up effect
 st.markdown("""
     <style>
-    /* Sidebar container */
+    /* Sidebar container styling */
     .sidebar .sidebar-content {
         background-color: #f8f9fa;
         padding: 20px 25px;
@@ -45,16 +49,23 @@ st.markdown("""
         font-weight: 600;
         border-radius: 8px;
         padding: 10px 20px;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
         width: 100%;
+        outline: none;
     }
+    /* Button pop-up on hover */
     .stButton > button:hover:not(:disabled) {
-        background-color: #45a049;
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         cursor: pointer;
+        background-color: #45a049;
     }
+    /* Disabled button style */
     .stButton > button:disabled {
         background-color: #a5d6a7;
         cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -75,7 +86,7 @@ st.sidebar.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayan
 st.sidebar.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
 
 # Main app title and explanation
-st.title("🫀 ECG Signal Filtering Application")
+st.title("ECG Signal Filtering Application")
 st.markdown("""
 **What does the filter do?**
 

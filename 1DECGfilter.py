@@ -12,10 +12,10 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_fft_data[mask] = fft_data[mask]
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
-    
-st.title("🫀 ECG Signal Filtering Application")
-st.markdown("""
+
 # Sidebar for input options
+st.sidebar.title("🫀 ECG Signal Filtering Application")
+st.sidebar.markdown("---")
 st.sidebar.title("Input Options")
 uploaded_file = st.sidebar.file_uploader("Upload ECG CSV file", type="csv")
 load_sample = st.sidebar.button("Load Sample Data")
@@ -26,7 +26,10 @@ st.sidebar.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayan
 st.sidebar.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
 
 # Main app title
+st.title("🫀 ECG Signal Filtering Application")
 
+# Explanation
+st.markdown("""
 **What does the filter do?**
 
 - Removes low-frequency baseline drift (<0.5 Hz) and high-frequency noise (>40 Hz).

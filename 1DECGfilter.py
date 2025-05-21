@@ -21,6 +21,16 @@ st.sidebar.title("Input Options")
 uploaded_file = st.sidebar.file_uploader("Upload ECG CSV file", type="csv")
 load_sample = st.sidebar.button("Load Sample Data")
 
+# New: Sampling frequency input
+fs = st.sidebar.number_input(
+    label="Sampling Frequency (Hz)",
+    min_value=1,
+    max_value=5000,
+    value=250,
+    step=1,
+    help="Sampling frequency of your ECG signal in Hertz"
+)
+
 st.sidebar.markdown("---")
 st.sidebar.header("Datasets")
 st.sidebar.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
@@ -50,7 +60,6 @@ elif uploaded_file is not None:
         st.success(f"Uploaded file: {uploaded_file.name}")
     except Exception as e:
         st.error(f"Error loading file: {e}")
-
 else:
     st.info("Upload an ECG CSV file or load sample data to begin.")
 
@@ -62,7 +71,7 @@ if df is not None:
     time = df.iloc[:, 0]
     ecg_signal = df.iloc[:, 1]
 
-    filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=250)
+    filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=fs)
 
     # Side-by-side plots
     col1, col2 = st.columns(2)

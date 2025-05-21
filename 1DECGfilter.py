@@ -20,28 +20,6 @@ if "load_sample_clicked" not in st.session_state:
 # Custom CSS for sidebar styling and button pop-up effect
 st.markdown("""
     <style>
-    /* Sidebar container styling */
-    .sidebar .sidebar-content {
-        background-color: #f8f9fa;
-        padding: 20px 25px;
-        border-radius: 12px;
-        box-shadow: 2px 4px 10px rgb(0 0 0 / 0.1);
-    }
-    /* Section titles */
-    .sidebar .sidebar-content h2, 
-    .sidebar .sidebar-content h3 {
-        color: #2c3e50;
-        font-weight: 700;
-        margin-bottom: 15px;
-    }
-    /* File uploader styling */
-    .stFileUploader > div {
-        border-radius: 10px !important;
-        border: 1.5px solid #ced4da !important;
-        padding: 10px !important;
-        background-color: white !important;
-        box-shadow: 0 0 4px rgba(0,0,0,0.05);
-    }
     /* Button styling */
     .stButton > button {
         background-color: #4CAF50;
@@ -53,12 +31,12 @@ st.markdown("""
         width: 100%;
         outline: none;
     }
-    /* Button pop-up on hover */
+    /* Button pop-up on hover with !important to enforce green */
     .stButton > button:hover:not(:disabled) {
         transform: scale(1.05);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         cursor: pointer;
-        background-color: #45a049;
+        background-color: #45a049 !important;
     }
     /* Disabled button style */
     .stButton > button:disabled {

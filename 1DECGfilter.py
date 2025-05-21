@@ -20,20 +20,20 @@ if "load_sample_clicked" not in st.session_state:
 # Custom CSS for sidebar styling and button pop-up effect
 st.markdown("""
     <style>
-    /* Make sidebar background black and text light */
-    .sidebar .sidebar-content {
+    /* Sidebar main container */
+    .css-1d391kg {
+        background-color: #000000 !important;
+        color: #f0f0f0 !important;
+    }
+    /* Sidebar content area */
+    .css-1v3fvcr {
         background-color: #000000 !important;
         color: #f0f0f0 !important;
         padding: 20px 25px;
-        border-radius: 12px;
-        box-shadow: none;
+        border-radius: 0px;
     }
-    /* Sidebar headers and text in light color */
-    .sidebar .sidebar-content h2, 
-    .sidebar .sidebar-content h3, 
-    .sidebar .sidebar-content label, 
-    .sidebar .sidebar-content .stText, 
-    .sidebar .sidebar-content span {
+    /* Sidebar headers and labels */
+    .css-1v3fvcr h2, .css-1v3fvcr h3, .css-1v3fvcr label, .css-1v3fvcr span {
         color: #f0f0f0 !important;
     }
     /* File uploader styling */
@@ -80,6 +80,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 # Sidebar content

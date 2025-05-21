@@ -23,11 +23,17 @@ with st.sidebar:
     st.markdown("---")
     st.write("Developed with Streamlit")
 
-# Main title and instructions
+# Main title and explanation
 st.title("🫀 ECG Signal Filtering Application")
+
 st.markdown("""
-Upload your **ECG CSV file** to apply a Bandpass Filter (0.5 - 40 Hz)  
-or load sample ECG data to try the app instantly.
+This application filters ECG signals to remove noise and baseline wander, enhancing the visibility of the **QRS complex**,  
+which is crucial for heart rate and rhythm analysis.
+
+**What is filtering doing?**  
+- **Bandpass filtering** allows frequencies between 0.5 Hz and 40 Hz to pass through.  
+- This removes low-frequency baseline drift and high-frequency noise (like powerline interference).  
+- The result is a cleaner ECG signal, making important features like QRS complexes easier to detect and analyze.
 """)
 
 # Upload and Sample buttons side-by-side
@@ -69,7 +75,6 @@ if df is not None:
     ax1.legend()
     st.pyplot(fig1)
 
-    # Filter signal
     filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=250)
 
     st.subheader("Filtered ECG Signal")
@@ -80,7 +85,6 @@ if df is not None:
     ax2.legend()
     st.pyplot(fig2)
 
-    # Styled QRS visibility comment
     st.markdown(
         """
         <div style='
@@ -94,13 +98,12 @@ if df is not None:
             margin-top: 20px;
             margin-bottom: 20px;
         '>
-            QRS Visibility Improved: Filtering reduces noise and baseline drift, enhancing the QRS complex.
+            QRS Visibility Improved: Filtering reduces noise and baseline drift, enhancing the QRS complex for clearer analysis.
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # Download filtered data
     filtered_df = pd.DataFrame({"Time": time, "Filtered ECG Signal": filtered_signal})
     csv_data = filtered_df.to_csv(index=False).encode("utf-8")
 

@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define Custom Bandpass Filter
+""# Define Custom Bandpass Filter
 def custom_bandpass_filter(data, lowcut, highcut, fs):
     fft_data = np.fft.fft(data)
     frequencies = np.fft.fftfreq(len(data), d=1/fs)
@@ -17,94 +17,112 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-# Streamlit App Configuration
-st.title("🫀 ECG Signal Filtering Application")
-st.markdown("Upload your **ECG CSV file** to apply Bandpass Filtering (0.5 - 40 Hz).")
+# Streamlit App Configuration""
+st.title("ECG Signal Filtering Application")
+st.markdown("Upload your **ECG CSV file** to apply Bandpass Filtering (0.5 - 40 Hz)")
 st.markdown("[Click here to download a sample ECG dataset from Kaggle](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
 st.markdown("[Click here to explore PhysioNet ECG Datasets](https://physionet.org/about/database/)")
 
 # File Upload
-uploaded_file = st.file_uploader("Choose a CSV file with ECG data", type="csv")
-
-# Add Load Sample Data Button
-load_sample = st.button("Load Sample Data")
-
-if load_sample:
-    # Sample Data Creation
+st.markdown("### Or use a sample ECG Data")
+if st.button("Load Sample Data"):
     sample_data = {
         'Time': np.linspace(0, 10, 2500),
         'ECG Signal': np.sin(2 * np.pi * 1 * np.linspace(0, 10, 2500)) + 0.5 * np.random.randn(2500)
     }
     df = pd.DataFrame(sample_data)
-    st.success("Sample ECG data loaded!")
-
-elif uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    st.success(f"Uploaded file: {uploaded_file.name}")
-
-else:
-    df = None
-    st.info("Please upload an ECG CSV file or click 'Load Sample Data'.")
-
-# Proceed if data is loaded
-if df is not None:
-    # Show first rows in an expandable section
-    with st.expander("Preview Data"):
-        st.write(df.head())
-
-    # Assume first col = time, second col = ECG signal
-    time = df.iloc[:, 0]
-    ecg_signal = df.iloc[:, 1]
-
-    # Plot Original ECG Signal
-    st.subheader("Original ECG Signal")
-    fig1, ax1 = plt.subplots()
-    ax1.plot(time, ecg_signal, label="Original Signal", color='blue')
-    ax1.set_xlabel("Time (s)")
-    ax1.set_ylabel("Amplitude")
-    ax1.legend()
-    st.pyplot(fig1)
-
+    st.write(df.head())
+    
+    # Plot Original Signal
+    time = df['Time']
+    ecg_signal = df['ECG Signal']
+    
+    fig, ax = plt.subplots()
+    ax.plot(time, ecg_signal, label='Original Signal (Sample Data)')
+    ax.set_title("Original ECG Signal - Sample Data")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude")
+    plt.legend()
+    st.pyplot(fig)
+    
     # Apply Bandpass Filter (0.5 to 40 Hz)
     filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=250)
 
     # Plot Filtered Signal
-    st.subheader("Filtered ECG Signal")
-    fig2, ax2 = plt.subplots()
-    ax2.plot(time, filtered_signal, label="Filtered Signal", color='green')  # Filtered signal is green now
-    ax2.set_xlabel("Time (s)")
-    ax2.set_ylabel("Amplitude")
-    ax2.legend()
-    st.pyplot(fig2)
+    st.markdown("### Filtered Signal (Sample Data)")
+    fig, ax = plt.subplots()
+    ax.plot(time, filtered_signal, color='orange', label='Filtered Signal')
+    ax.set_title("Filtered ECG Signal - Sample Data")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude")
+    plt.legend()
+    st.pyplot(fig)
 
     # QRS Visibility Comment
-    st.markdown(
-        """
-        <div style='
-            background-color:#4CAF50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        '>
-            QRS Visibility Improved: The filtering reduces noise and baseline drift, making the QRS complex clearer for analysis.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("**QRS Visibility Improved:** The high-frequency noise and baseline drift have been filtered out, making the QRS complex more prominent and clearer to analyze.")
 
-    # Download filtered ECG data
-    filtered_df = pd.DataFrame({"Time": time, "Filtered ECG Signal": filtered_signal})
-    csv = filtered_df.to_csv(index=False).encode('utf-8')
 
-    st.download_button(
-        label="📥 Download Filtered ECG Data as CSV",
-        data=csv,
-        file_name='filtered_ecg.csv',
-        mime='text/csv',
-        help="Download the filtered ECG signal data"
-    )
+
+def custom_bandpass_filter(data, lowcut, highcut, fs):
+    fft_data = np.fft.fft(data)
+    frequencies = np.fft.fftfreq(len(data), d=1/fs)
+
+    # Create a mask for frequencies within the bandpass range
+    mask = (frequencies > lowcut) & (frequencies < highcut)
+    filtered_fft_data = np.zeros_like(fft_data)
+    filtered_fft_data[mask] = fft_data[mask]
+
+    # Inverse FFT to get the filtered time-domain signal
+    filtered_signal = np.fft.ifft(filtered_fft_data).real
+    return filtered_signal
+
+
+
+
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+
+
+
+
+# Main Logic
+if uploaded_file:
+    # Load the data
+    st.markdown("### Original Signal")
+    df = pd.read_csv(uploaded_file)
+    
+    # Display DataFrame
+    st.write(df.head())
+
+    # Assume the first column is time and the second is ECG
+    time = df.iloc[:, 0]
+    ecg_signal = df.iloc[:, 1]
+    
+    # Plot Original Signal
+    fig, ax = plt.subplots()
+    ax.plot(time, ecg_signal, label='Original Signal')
+    ax.set_title("Original ECG Signal")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude")
+    plt.legend()
+    st.pyplot(fig)
+    
+    # Apply Bandpass Filter (0.5 to 40 Hz)
+    filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=250)
+
+    # Plot Filtered Signal
+    st.markdown("### Filtered Signal")
+    fig, ax = plt.subplots()
+    ax.plot(time, filtered_signal, color='orange', label='Filtered Signal')
+    ax.set_title("Filtered ECG Signal")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude")
+    plt.legend()
+    st.pyplot(fig)
+
+    # QRS Visibility Comment
+    st.markdown("**QRS Visibility Improved:** The high-frequency noise and baseline drift have been filtered out, making the QRS complex more prominent and clearer to analyze.")
+
+    # Download Filtered Data
+    st.markdown("### Download Filtered ECG Data")
+    download_button = st.download_button(label="Download CSV", data=df.to_csv(index=False), file_name="filtered_ecg.csv", mime="text/csv")

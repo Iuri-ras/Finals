@@ -15,6 +15,7 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
 
 # Sidebar for input options
 st.sidebar.title("🫀 ECG Signal Filtering App")
+st.sidebar.markdown("---")
 st.sidebar.title("Input Options")
 uploaded_file = st.sidebar.file_uploader("Upload ECG CSV file", type="csv")
 load_sample = st.sidebar.button("Load Sample Data")

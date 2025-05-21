@@ -14,7 +14,7 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     return filtered_signal
 
 # Sidebar inputs
-st.sidebar.title("🫀 ECG Signal Filtering Application")
+st.sidebar.title("🫀 ECG Signal Filtering App")
 st.sidebar.markdown("---")
 st.sidebar.title("Input Options")
 

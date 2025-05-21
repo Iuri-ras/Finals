@@ -13,71 +13,28 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-# Initialize session state for Load Sample button
+# Initialize session state for sample load button
 if "load_sample_clicked" not in st.session_state:
     st.session_state.load_sample_clicked = False
-
-# Apply some custom CSS for styling
-st.markdown(
-    """
-    <style>
-    /* Style the sidebar upload/load section */
-    .upload-section {
-        background: #f5f7fa;
-        padding: 25px 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        margin-bottom: 25px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .upload-section h2 {
-        margin-top: 0;
-        color: #4a4a4a;
-        font-weight: 700;
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-    }
-    .stFileUploader>div {
-        background-color: #ffffff !important;
-        border-radius: 10px !important;
-        padding: 10px !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .stButton>button {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: 600;
-        padding: 10px 15px;
-        border-radius: 10px;
-        border: none;
-        transition: background-color 0.3s ease;
-    }
-    .stButton>button:hover:not(:disabled) {
-        background-color: #45a049;
-        cursor: pointer;
-    }
-    .stButton>button:disabled {
-        background-color: #a5d6a7;
-        cursor: not-allowed;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Sidebar title
+    
 st.sidebar.title("🫀 ECG Signal Filtering Application")
-
-# Sidebar upload & load sample section inside a styled div
+# Sidebar container for grouped inputs with style
 with st.sidebar:
-    st.markdown('<div class="upload-section">', unsafe_allow_html=True)
-    st.markdown("## Input Data")
-    uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
-    load_sample = st.button(
-        "Load Sample Data",
-        disabled=st.session_state.load_sample_clicked,
-        help="Load a generated sample ECG signal"
+    st.markdown(
+        """
+        <div style="
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        ">
+        <h3 style='margin-top: 0;'>Input Options</h3>
+        """,
+        unsafe_allow_html=True,
     )
+    uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
+    load_sample = st.button("Load Sample Data", disabled=st.session_state.load_sample_clicked)
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -85,8 +42,6 @@ with st.sidebar:
     st.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
     st.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
 
-# Page title and explanation
-st.title("ECG Signal Filtering Application")
 st.markdown("""
 **What does the filter do?**
 
@@ -94,7 +49,6 @@ st.markdown("""
 - Enhances the clarity of the QRS complex, which is key for heart rate analysis.
 """)
 
-# Load sample data logic with disable after click
 if load_sample:
     st.session_state.load_sample_clicked = True
     time = np.linspace(0, 10, 2500)
@@ -112,7 +66,6 @@ else:
     df = None
     st.info("Upload an ECG CSV file or load sample data to begin.")
 
-# Data preview and plotting
 if df is not None:
     with st.expander("Preview Data"):
         st.write(df.head())

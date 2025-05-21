@@ -16,7 +16,8 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
 # Initialize session state for sample load button
 if "load_sample_clicked" not in st.session_state:
     st.session_state.load_sample_clicked = False
-
+    
+st.sidebar.title("🫀 ECG Signal Filtering Application")
 # Sidebar container for grouped inputs with style
 with st.sidebar:
     st.markdown(
@@ -40,8 +41,6 @@ with st.sidebar:
     st.header("Datasets")
     st.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
     st.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
-
-st.title("🫀 ECG Signal Filtering Application")
 
 st.markdown("""
 **What does the filter do?**

@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Bandpass filter function
 def custom_bandpass_filter(data, lowcut, highcut, fs):
     fft_data = np.fft.fft(data)
     frequencies = np.fft.fftfreq(len(data), d=1/fs)
@@ -13,44 +12,36 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-# Initialize session state for sample load button
-if "load_sample_clicked" not in st.session_state:
-    st.session_state.load_sample_clicked = False
-    
-st.sidebar.title("🫀 ECG Signal Filtering Application")
-# Sidebar container for grouped inputs with style
+st.title("🫀 ECG Signal Filtering Application")
+
 with st.sidebar:
-    st.markdown(
-        """
-        <div style="
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        ">
-        <h3 style='margin-top: 0;'>Input Options</h3>
-        """,
-        unsafe_allow_html=True,
-    )
-    uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
-    load_sample = st.button("Load Sample Data", disabled=st.session_state.load_sample_clicked)
-    st.markdown("</div>", unsafe_allow_html=True)
+    # Use container for grouping inputs
+    with st.container():
+        st.markdown(
+            """
+            <style>
+            .input-box {
+                background-color: #f0f2f6;
+                padding: 20px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
+            </style>
+            <div class="input-box">
+            <h3>Input Options</h3>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
+        load_sample = st.button("Load Sample Data")
 
     st.markdown("---")
     st.header("Datasets")
     st.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
     st.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
 
-st.markdown("""
-**What does the filter do?**
-
-- Removes low-frequency baseline drift (<0.5 Hz) and high-frequency noise (>40 Hz).
-- Enhances the clarity of the QRS complex, which is key for heart rate analysis.
-""")
-
 if load_sample:
-    st.session_state.load_sample_clicked = True
     time = np.linspace(0, 10, 2500)
     ecg_signal = np.sin(2 * np.pi * 1 * time) + 0.5 * np.random.randn(2500)
     df = pd.DataFrame({"Time": time, "ECG Signal": ecg_signal})

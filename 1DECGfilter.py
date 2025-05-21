@@ -12,8 +12,9 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-st.title("🫀 ECG Signal Filtering Application")
-
+st.sidebar.title("🫀 ECG Signal Filtering Application")
+st.markdown("---")
+st.sidebar.title("Input Options")
 with st.sidebar:
     # Use container for grouping inputs
     with st.container():
@@ -32,9 +33,10 @@ with st.sidebar:
             </div>
             """,
             unsafe_allow_html=True,
+            uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
+            load_sample = st.button("Load Sample Data")
         )
-        uploaded_file = st.file_uploader("Upload ECG CSV file", type="csv")
-        load_sample = st.button("Load Sample Data")
+      
 
     st.markdown("---")
     st.header("Datasets")

@@ -20,33 +20,67 @@ if "load_sample_clicked" not in st.session_state:
 # Custom CSS for sidebar styling and button pop-up effect
 st.markdown("""
     <style>
+    /* Make sidebar background black and text light */
+    .sidebar .sidebar-content {
+        background-color: #000000 !important;
+        color: #f0f0f0 !important;
+        padding: 20px 25px;
+        border-radius: 12px;
+        box-shadow: none;
+    }
+    /* Sidebar headers and text in light color */
+    .sidebar .sidebar-content h2, 
+    .sidebar .sidebar-content h3, 
+    .sidebar .sidebar-content label, 
+    .sidebar .sidebar-content .stText, 
+    .sidebar .sidebar-content span {
+        color: #f0f0f0 !important;
+    }
+    /* File uploader styling */
+    .stFileUploader > div {
+        border-radius: 10px !important;
+        border: 1.5px solid #444 !important;
+        padding: 10px !important;
+        background-color: #111 !important;
+        box-shadow: 0 0 8px rgba(255,255,255,0.1);
+        color: #f0f0f0;
+    }
     /* Button styling */
     .stButton > button {
-        background-color: #4CAF50;
-        color: white;
+        background-color: #222 !important;
+        color: #f0f0f0 !important;
         font-weight: 600;
         border-radius: 8px;
         padding: 10px 20px;
         transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
         width: 100%;
         outline: none;
+        border: 1.5px solid #444;
     }
-    /* Button pop-up on hover with !important to enforce green */
+    /* Button pop-up on hover with light shadow glow */
     .stButton > button:hover:not(:disabled) {
         transform: scale(1.05);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 12px 3px rgba(255, 255, 255, 0.7);
         cursor: pointer;
-        background-color: #45a049 !important;
+        background-color: #333 !important;
+        color: #fff !important;
     }
     /* Disabled button style */
     .stButton > button:disabled {
-        background-color: #a5d6a7;
+        background-color: #555 !important;
         cursor: not-allowed;
         transform: none !important;
         box-shadow: none !important;
+        color: #bbb !important;
+        border-color: #666 !important;
+    }
+    /* Adjust checkbox and other input labels to light */
+    input, label, span {
+        color: #f0f0f0 !important;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # Sidebar content
 st.sidebar.markdown("## 🫀 ECG Signal Filtering App")

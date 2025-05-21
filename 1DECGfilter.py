@@ -1,3 +1,59 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Bandpass filter function
+def custom_bandpass_filter(data, lowcut, highcut, fs):
+    fft_data = np.fft.fft(data)
+    frequencies = np.fft.fftfreq(len(data), d=1/fs)
+    mask = (frequencies > lowcut) & (frequencies < highcut)
+    filtered_fft_data = np.zeros_like(fft_data)
+    filtered_fft_data[mask] = fft_data[mask]
+    filtered_signal = np.fft.ifft(filtered_fft_data).real
+    return filtered_signal
+
+# Sidebar inputs
+st.sidebar.title("🫀 ECG Signal Filtering Application")
+st.sidebar.markdown("---")
+st.sidebar.title("Input Options")
+
+uploaded_file = st.sidebar.file_uploader("Upload ECG CSV file", type="csv")
+load_sample = st.sidebar.button("Load Sample Data")
+
+st.sidebar.markdown("---")
+st.sidebar.header("Datasets")
+st.sidebar.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
+st.sidebar.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
+
+# Main app title and explanation
+st.title("🫀 ECG Signal Filtering Application")
+st.markdown("""
+**What does the filter do?**
+
+- Removes low-frequency baseline drift (<0.5 Hz) and high-frequency noise (>40 Hz).
+- Enhances the clarity of the QRS complex, which is key for heart rate analysis.
+""")
+
+# Initialize df variable early
+df = None
+
+# Load sample data if button pressed
+if load_sample:
+    time = np.linspace(0, 10, 2500)
+    ecg_signal = np.sin(2 * np.pi * 1 * time) + 0.5 * np.random.randn(2500)
+    df = pd.DataFrame({"Time": time, "ECG Signal": ecg_signal})
+    st.success("Sample ECG data loaded!")
+elif uploaded_file is not None:
+    try:
+        df = pd.read_csv(uploaded_file)
+        st.success(f"Uploaded file: {uploaded_file.name}")
+    except Exception as e:
+        st.error(f"Error loading file: {e}")
+
+else:
+    st.info("Upload an ECG CSV file or load sample data to begin.")
+
 # Display and process data if available
 if df is not None:
     with st.expander("Preview Data"):
@@ -8,7 +64,7 @@ if df is not None:
 
     filtered_signal = custom_bandpass_filter(ecg_signal, 0.5, 40, fs=250)
 
-    # Create two columns
+    # Side-by-side plots
     col1, col2 = st.columns(2)
 
     with col1:

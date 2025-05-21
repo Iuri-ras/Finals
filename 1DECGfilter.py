@@ -14,6 +14,7 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     return filtered_signal
 
 # Sidebar for input options
+st.sidebar.title("🫀 ECG Signal Filtering App")
 st.sidebar.title("Input Options")
 uploaded_file = st.sidebar.file_uploader("Upload ECG CSV file", type="csv")
 load_sample = st.sidebar.button("Load Sample Data")
@@ -22,9 +23,6 @@ st.sidebar.markdown("---")
 st.sidebar.header("Datasets")
 st.sidebar.markdown("[Kaggle ECG Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)")
 st.sidebar.markdown("[PhysioNet ECG Database](https://physionet.org/about/database/)")
-
-# Main app title
-st.title("🫀 ECG Signal Filtering Application")
 
 # Explanation
 st.markdown("""

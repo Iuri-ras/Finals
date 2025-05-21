@@ -13,78 +13,74 @@ def custom_bandpass_filter(data, lowcut, highcut, fs):
     filtered_signal = np.fft.ifft(filtered_fft_data).real
     return filtered_signal
 
-# Initialize session state to track if sample data is loaded
-if "load_sample_clicked" not in st.session_state:
-    st.session_state.load_sample_clicked = False
-
-# Custom CSS for sidebar styling and button pop-up effect
-st.markdown("""
+# Apply custom CSS for your color palette
+st.markdown(f"""
     <style>
-    /* Sidebar main container */
-    .css-1d391kg {
-        background-color: #000000 !important;
-        color: #f0f0f0 !important;
-    }
-    /* Sidebar content area */
-    .css-1v3fvcr {
-        background-color: #000000 !important;
-        color: #f0f0f0 !important;
-        padding: 20px 25px;
-        border-radius: 0px;
-    }
+    /* Sidebar background and text */
+    .css-1d391kg, .css-1v3fvcr {{
+        background-color: #344e41 !important;
+        color: #dad7cd !important;
+    }}
     /* Sidebar headers and labels */
-    .css-1v3fvcr h2, .css-1v3fvcr h3, .css-1v3fvcr label, .css-1v3fvcr span {
-        color: #f0f0f0 !important;
-    }
+    .css-1v3fvcr h2, .css-1v3fvcr h3, .css-1v3fvcr label, .css-1v3fvcr span {{
+        color: #dad7cd !important;
+    }}
     /* File uploader styling */
-    .stFileUploader > div {
+    .stFileUploader > div {{
         border-radius: 10px !important;
-        border: 1.5px solid #444 !important;
+        border: 1.5px solid #588157 !important;
         padding: 10px !important;
-        background-color: #111 !important;
-        box-shadow: 0 0 8px rgba(255,255,255,0.1);
-        color: #f0f0f0;
-    }
+        background-color: #3a5a40 !important;
+        box-shadow: 0 0 8px rgba(163, 177, 138, 0.4);
+        color: #dad7cd;
+    }}
     /* Button styling */
-    .stButton > button {
-        background-color: #222 !important;
-        color: #f0f0f0 !important;
+    .stButton > button {{
+        background-color: #588157 !important;
+        color: #dad7cd !important;
         font-weight: 600;
         border-radius: 8px;
         padding: 10px 20px;
         transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
         width: 100%;
         outline: none;
-        border: 1.5px solid #444;
-    }
-    /* Button pop-up on hover with light shadow glow */
-    .stButton > button:hover:not(:disabled) {
+        border: 1.5px solid #a3b18a;
+    }}
+    /* Button pop-up on hover */
+    .stButton > button:hover:not(:disabled) {{
         transform: scale(1.05);
-        box-shadow: 0 0 12px 3px rgba(255, 255, 255, 0.7);
+        box-shadow: 0 0 12px 3px rgba(163, 177, 138, 0.7);
         cursor: pointer;
-        background-color: #333 !important;
-        color: #fff !important;
-    }
+        background-color: #a3b18a !important;
+        color: #344e41 !important;
+    }}
     /* Disabled button style */
-    .stButton > button:disabled {
-        background-color: #555 !important;
+    .stButton > button:disabled {{
+        background-color: #dad7cd !important;
         cursor: not-allowed;
         transform: none !important;
         box-shadow: none !important;
-        color: #bbb !important;
-        border-color: #666 !important;
-    }
-    /* Adjust checkbox and other input labels to light */
-    input, label, span {
-        color: #f0f0f0 !important;
-    }
+        color: #588157 !important;
+        border-color: #a3b18a !important;
+    }}
+    /* Text input and labels */
+    input, label, span {{
+        color: #dad7cd !important;
+    }}
+    /* Main page background & text */
+    .css-18e3th9 {{
+        background-color: #dad7cd !important;
+        color: #344e41 !important;
+    }}
+    /* Headers on main page */
+    h1, h2, h3, h4, h5, h6 {{
+        color: #344e41 !important;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
-
-
 # Sidebar content
-st.sidebar.markdown("## 🫀 ECG Signal Filtering App")
+st.sidebar.markdown("## 🫀 ECG Signal Filtering")
 st.sidebar.markdown("---")
 
 with st.sidebar.container():
@@ -139,7 +135,7 @@ if df is not None:
     with col1:
         st.subheader("Original ECG Signal")
         fig, ax = plt.subplots()
-        ax.plot(time, ecg_signal, color="blue")
+        ax.plot(time, ecg_signal, color="#344e41")
         ax.set_xlabel("Time (s)")
         ax.set_ylabel("Amplitude")
         st.pyplot(fig)
@@ -147,15 +143,15 @@ if df is not None:
     with col2:
         st.subheader("Filtered ECG Signal")
         fig2, ax2 = plt.subplots()
-        ax2.plot(time, filtered_signal, color="green")
+        ax2.plot(time, filtered_signal, color="#588157")
         ax2.set_xlabel("Time (s)")
         ax2.set_ylabel("Amplitude")
         st.pyplot(fig2)
 
-    st.markdown("""
+    st.markdown(f"""
         <div style="
-            background-color:#198754;
-            color: white;
+            background-color:{'#588157'};
+            color: { '#dad7cd' };
             padding: 15px;
             border-radius: 8px;
             font-weight: 600;

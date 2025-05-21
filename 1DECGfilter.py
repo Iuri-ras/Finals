@@ -51,7 +51,7 @@ if st.button("Load Sample Data"):
     # Plot Filtered Signal
     st.markdown("### Filtered Signal (Sample Data)")
     fig, ax = plt.subplots()
-    ax.plot(time, filtered_signal, color='orange', label='Filtered Signal')
+    ax.plot(time, filtered_signal, color='green', label='Filtered Signal')
     ax.set_title("Filtered ECG Signal - Sample Data")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Amplitude")

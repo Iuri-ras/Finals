@@ -108,9 +108,9 @@ if df is not None:
     csv_data = filtered_df.to_csv(index=False).encode("utf-8")
 
     st.download_button(
-        label="📥 Download Filtered ECG Data as CSV",
+        label="📥 Gago Filtered ECG Data as CSV",
         data=csv_data,
         file_name="filtered_ecg.csv",
         mime="text/csv",
-        help="gago the filtered ECG signal data",
+        help="Download the filtered ECG signal data",
     )
